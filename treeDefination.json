@@ -1,0 +1,22 @@
+{
+    "simulation" :{
+        "type":"Simulation",
+        "preload":true,
+        "webservice":"something",
+        "lazyLoad": 2
+    },
+    "activity":{
+        "type":"Activity",
+        "preload":false,
+        "webservice":"something1",
+        "lazyload" : 5
+    }
+    ,
+    "executionOption":{
+        "type":"ExecutionOption",
+        "preload":false,
+        "webservice":"something2",
+        "lazyload" : -1
+    }
+
+}
