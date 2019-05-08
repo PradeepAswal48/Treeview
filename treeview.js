@@ -74,6 +74,10 @@ class Treeview extends LitElement {
           'name': 'Activty Name1',
           'id': 'act-13',
           'type': 'activity'
+        },
+        'executionOption': {
+          'name': 'Execution Option', 'type': 'executionOption',
+          'id': 'exe-123'
         }
       };
 
@@ -81,10 +85,17 @@ class Treeview extends LitElement {
     else if (this.type === 'activity') {
       this.data = {
         'name': 'Act1',
+        'full': 'details',
         'executionOption': {
           'name': 'Execution Option', 'type': 'executionOption',
           'id': 'exe-123'
         }
+      };
+    }
+    else if (this.type === 'executionOption') {
+      this.data = {
+        'name': 'executionOption1',
+        'full': 'details'
       };
     }
 
