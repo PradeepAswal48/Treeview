@@ -34,7 +34,7 @@ class Treeview extends LitElement {
   parseJSONtoHTML() {
     var JSONObject = this.data;
     for (var item in JSONObject) {
-      if (this.hasProperty(item)) {
+      if (JSONObject[item]['type'] && this.hasProperty(JSONObject[item]['type'])) {
         this.node.push(JSONObject[item]);
       }
       else {
@@ -68,6 +68,11 @@ class Treeview extends LitElement {
         'activity': {
           'name': 'Activty Name',
           'id': 'act-123',
+          'type': 'activity'
+            },
+        'activity1': {
+          'name': 'Activty Name1',
+          'id': 'act-13',
           'type': 'activity'
         }
       };
