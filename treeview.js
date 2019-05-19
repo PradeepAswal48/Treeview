@@ -137,7 +137,16 @@ class Treeview extends LitElement {
 
       });
     }
+    //handing click event on selection of particular item
+    // var selection = this.renderRoot.querySelectorAll('#li-content');
+    // for(var i=0; i<selection.length;i++){
+    //   selection[i].addEventListener("click",function(){
+    //     alert('working');
+        
+    //     this.classList.add('li-content-active');
+    //   });
 
+    // }
   }
   renderProperties(propObject){
     var properties =[];
@@ -155,13 +164,13 @@ class Treeview extends LitElement {
       <ul id="myContent">
       ${this.leafNode.map(leafs => html`${leafs.hasOwnProperty('value')?
       html`
-        <li class='li-content'><span class='default'>${leafs['value']}</span>
+        <li class='li-content' id='li-content'><span class='default'>${leafs['value']}</span>
         <span>${leafs['type'] ? html`${leafs['type'] }`: html` ` }<span></li>
       `:
       html`<li><span class='more'>${Object.keys(leafs)[0]}</span>
                 <ul class='nested'>
                     ${this.renderProperties(leafs['properties']).map(leaf => html`
-                      <li class='li-content'><span class='default'>${leaf['value']}</span>
+                      <li class='li-content' id='li-content'><span class='default'>${leaf['value']}</span>
                       <span>${leaf['type'] ? html`${leaf['type']} `: html` ` }</span></li>
                     `)}
                 </ul>
