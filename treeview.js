@@ -25,20 +25,20 @@ class Treeview extends LitElement {
     };
 
   }
-  hasProperty(item) {
-    if (this.objectType[item]) {
-      return true;
-    }
-    return false;
-  }
-  parseJSONtoHTML() {
+ 
+  createNodes() {
     var JSONObject = this.data;
     for (var item in JSONObject) {
-      if (JSONObject[item]['type'] && this.hasProperty(JSONObject[item]['type'])) {
-        this.node.push(JSONObject[item]);
+      if(this.objectType[item] && this.objectType[item]['type']===item){
+        var obj={};
+        obj[item]=JSONObject[item];
+        this.leafNode.push(obj);
       }
-      else {
+      else if(JSONObject[item].hasOwnProperty('value')) {
         this.leafNode.push(JSONObject[item]);
+      }
+      else if (JSONObject[item]['type']['value'] && this.objectType[JSONObject[item]['type']['value']]['type']) {
+        this.node.push(JSONObject[item]);
       }
     }
 
@@ -54,49 +54,54 @@ class Treeview extends LitElement {
 
 
   }
-  connectedCallback() {
-    super.connectedCallback();
-    console.log('i load before render');
-    this.innerText = 'loading';
+  static get styles() {
+    return css`
+    :host {
+      display: block;
+      margin:0;
+      padding:0;
+    }`;
   }
+  // connectedCallback() {
+  //   super.connectedCallback();
+  //   console.log('i load before render');
+  //   this.innerText = 'loading';
+  // }
   fetchData() {
     console.log("Data load for" + this.type);
     if (this.type === 'simulation') {
-      this.data = {
-        'name': 'simulation1',
-        'type': 'simulation',
-        'activity': {
-          'name': 'Activty Name',
-          'id': 'act-123',
-          'type': 'activity'
-            },
-        'activity1': {
-          'name': 'Activty Name1',
-          'id': 'act-13',
-          'type': 'activity'
-        },
-        'executionOption': {
-          'name': 'Execution Option', 'type': 'executionOption',
-          'id': 'exe-123'
+      var instance = this;
+      var request = new XMLHttpRequest();
+      request.open('GET', "./mockData/Process.json", false);
+      request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+          instance.data = JSON.parse(request.response);
         }
-      };
-
+      }
+      request.send();
     }
     else if (this.type === 'activity') {
-      this.data = {
-        'name': 'Act1',
-        'full': 'details',
-        'executionOption': {
-          'name': 'Execution Option', 'type': 'executionOption',
-          'id': 'exe-123'
+      var instance = this;
+      var request = new XMLHttpRequest();
+      request.open('GET', "./mockData/activity.json", false);
+      request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+          instance.data = JSON.parse(request.response);
         }
-      };
+      }
+      request.send();
     }
     else if (this.type === 'executionOption') {
-      this.data = {
-        'name': 'executionOption1',
-        'full': 'details'
-      };
+      var instance = this;
+      var request = new XMLHttpRequest();
+      request.open('GET', "./mockData/executionOption.json", false);
+      request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+          instance.data = JSON.parse(request.response);
+        }
+      }
+      request.send();
+      
     }
 
   }
@@ -119,9 +124,13 @@ class Treeview extends LitElement {
       toggler[i].addEventListener("click", function () {
         var id = this.getAttribute('data-id');
         var type = this.getAttribute('data-type');
-        if (!this.parentElement.querySelector('#' + id)) {
-          this.parentElement.querySelector(".nested").innerHTML += "<tree-view id=" + id + " type=" + type + "></tree-view>";
+        if(id && type){
+          if (!this.parentElement.querySelector('#' + id)) {
+            this.parentElement.querySelector(".nested").innerHTML += "<tree-view id=" + id + " type=" + type + "></tree-view>";
+          }
+
         }
+        
         this.parentElement.querySelector(".nested").classList.toggle("active");
         this.classList.toggle("more-down");
 
@@ -130,25 +139,47 @@ class Treeview extends LitElement {
     }
 
   }
+  renderProperties(propObject){
+    var properties =[];
+    for(var prop in propObject){
+      properties.push(propObject[prop]);
+    }
+    return properties;
+
+  }
   render() {
     this.fetchData();
-    this.parseJSONtoHTML();
+    this.createNodes();
     return html`
-    <link rel="stylesheet" href="./treeview-css.css">
-    
-    <ul id="myContent">
-    ${this.leafNode.map(leafnodes => html`<li>${leafnodes}</li>`)}
-    ${this.node.map(nodes => html`<li>
-    ${this.objectType[nodes.type]['preload'] ? html`
-    <span data-id='${nodes.id}' data-type='${nodes.type}' class="more">${nodes.name}</span><ul class='nested'>
-    <tree-view id='${nodes.id}' type='${nodes.type}'></tree-view>
-    </ul>  
-    
-    `: html`
-    <span data-id='${nodes.id}' data-type='${nodes.type}' class="more">${nodes.name}</span><ul class='nested'></ul></li>`}
-    `)}
-  </ul>
-    
+      <link rel="stylesheet" href="./treeview-css.css">
+      <ul id="myContent">
+      ${this.leafNode.map(leafs => html`${leafs.hasOwnProperty('value')?
+      html`
+        <li class='li-content'><span class='default'>${leafs['value']}</span>
+        <span>${leafs['type'] ? html`${leafs['type'] }`: html` ` }<span></li>
+      `:
+      html`<li><span class='more'>${Object.keys(leafs)[0]}</span>
+                <ul class='nested'>
+                    ${this.renderProperties(leafs['properties']).map(leaf => html`
+                      <li class='li-content'><span class='default'>${leaf['value']}</span>
+                      <span>${leaf['type'] ? html`${leaf['type']} `: html` ` }</span></li>
+                    `)}
+                </ul>
+              </li>`}`)}
+
+      
+      ${this.node.map(nodes => html`<li>
+              ${this.objectType[nodes['type']['value']]['preload'] ? html`
+              <span data-id='${nodes['id']['value']}' data-type='${nodes['type']['value']}' class="more ">${nodes['name']['value']}</span><ul class='nested'>
+              <tree-view id='${nodes.id}' type='${nodes.type}'></tree-view>
+              </ul>  
+              
+              `: html`
+              <span data-id='${nodes['id']['value']}' data-type='${nodes['type']['value']}' class="more ">${nodes['name']['value']}</span><ul class='nested'></ul></li>`}
+              `)}
+      
+
+      </ul>
     `;
   }
 }
