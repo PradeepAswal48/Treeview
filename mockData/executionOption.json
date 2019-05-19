@@ -1,0 +1,10 @@
+{
+    "name": {
+        "value":"executionOption1",
+        "type":"String"
+    },
+    "full": {
+        "value":"rest of detials",
+        "type":"String"
+    }
+  }

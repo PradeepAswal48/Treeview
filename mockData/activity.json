@@ -1,0 +1,25 @@
+{
+    "name":{
+        "value":"act1",
+        "type":"String"
+    },
+    "full":{
+        "value":"detail",
+        "type":"String"
+    },
+    "executionOption":{
+        "name":{
+            "value":"Execution Options",
+            "type":"String"
+        },
+        "type":{
+            "value":"executionOption",
+            "type":"String"
+        },
+        "id":{
+            "value":"exe-123",
+            "type":"String"
+        }
+    }
+}
+  

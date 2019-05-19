@@ -1,0 +1,54 @@
+{
+    "name": {
+        "value":"process1",
+        "type":"String"
+    },
+    "type": {
+        "value":"simulation",
+        "type":"String"
+    },
+    "properties":{
+        "owner":{
+            "value":"pal6",
+            "type":"String"
+        },
+        "title":{
+            "value":"process1",
+            "type":"String"
+        },
+        "ownedContent":{
+            "value":"owned content",
+            "type":"String"
+        }
+
+    },
+    "activity": {
+      "name": {
+        "value":"Activity",
+        "type":"String"
+    },
+      "id": {
+        "value":"act-123",
+        "type":"String"
+    },
+      "type": {
+        "value":"activity",
+        "type":"String"
+    }
+        },
+    
+    "executionOption": {
+      "name": {
+        "value":"exec option",
+        "type":"String"
+    },
+     "type": {
+        "value":"executionOption",
+        "type":"String"
+    },
+      "id": {
+          "value":"exec-123",
+          "type":"String"
+        }
+    }
+}
