@@ -4,16 +4,41 @@
   }
   ul, #myContent {
     list-style-type: none;
+    padding: 0;
+    
+    font-size: 14px;
+    font-family: arial;
   }
   
   #myUL {
     margin: 0;
     padding: 0;
   }
-  li{
-    padding: 2px;
+  .li-content{
+    justify-content: space-between;
+    display: flex;
+    border: 1px solid #eceaea;
   }
-  .more {
+  li{
+    padding-left: 6px;
+    min-width: 300px;
+    /* padding: 6px; */
+    max-width: 400px;
+    cursor: pointer;
+    padding-bottom: 6px;
+    padding-top: 6px;
+  }
+  li span{
+    padding: 5px;
+  }
+  .li-content:hover{
+    color: #fff;
+    background: #115086;
+
+  }
+  .default {
+    display: block;
+    padding-left: 5px;
     cursor: pointer;
     -webkit-user-select: none; /* Safari 3.1+ */
     -moz-user-select: none; /* Firefox 2+ */
@@ -41,5 +66,6 @@
   .active {
     padding: 0;
     display: block;
-    margin-top: -10px;
+    margin-left: 30px;
   }
+
