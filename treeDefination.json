@@ -17,6 +17,12 @@
         "preload":false,
         "webservice":"something2",
         "lazyload" : -1
+    },
+    "properties":{
+        "type":"properties",
+        "preload":true,
+        "value":"properties"
+
     }
 
 }
